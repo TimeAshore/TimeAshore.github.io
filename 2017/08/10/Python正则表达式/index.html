@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。  re 模块使 Python 语言拥有全部的正则表达式功能。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python正则表达式">
+<meta property="og:url" content="http://TimeAshore.github.io/2017/08/10/Python正则表达式/index.html">
+<meta property="og:site_name" content="TimeAshore">
+<meta property="og:description" content="正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。  re 模块使 Python 语言拥有全部的正则表达式功能。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://timeashore.github.io/uploads/re.png">
+<meta property="og:updated_time" content="2017-11-07T12:56:02.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python正则表达式">
+<meta name="twitter:description" content="正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。  re 模块使 Python 语言拥有全部的正则表达式功能。">
+<meta name="twitter:image" content="http://timeashore.github.io/uploads/re.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'CX9DWNDL7L',
+      apiKey: '36325da64458e82fa2ccff878210fea9',
+      indexName: 'test',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://TimeAshore.github.io/2017/08/10/Python正则表达式/"/>
+
+
+
+
+
+  <title>Python正则表达式 | TimeAshore</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ed8f3ae4007bb785ba5556c2e060fa8c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TimeAshore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">海有多蓝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <!-- 添加  theme.algolia_search.enable -->
+  
+
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> 
+
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> 
+
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> 
+
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> 
+
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> 
+
+            
+            关于
+          </a>
+        </li>
+      
+
+
+  
+    <li class="menu-item menu-item-search">
+      
+        <a href="javascript:;" class="popup-trigger">
+
+<!-- 添加 结束 -->
+
+
+      
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+        
+        搜索
+      </a>
+    </li>
+  
+</ul>
+
+  
+
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2017/08/10/Python正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Time">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TimeAshore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python正则表达式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T19:12:16+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/10/Python正则表达式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/10/Python正则表达式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/10/Python正则表达式/" class="leancloud_visitors" data-flag-title="Python正则表达式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,757
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。</p>
+<hr>
+<h2 id="re-模块使-Python-语言拥有全部的正则表达式功能。"><a href="#re-模块使-Python-语言拥有全部的正则表达式功能。" class="headerlink" title="re 模块使 Python 语言拥有全部的正则表达式功能。"></a>re 模块使 Python 语言拥有全部的正则表达式功能。</h2><a id="more"></a>
+<p>re.match函数<br>re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功或匹配失败，match()就返回none。<br>函数语法：</p>
+<blockquote>
+<p>re.match(pattern, string, flags=0)</p>
+</blockquote>
+<p>注：pattern    匹配的正则表达式<br>string    要匹配的字符串。<br>flags    标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等</p>
+<p>实例：<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="built_in">print</span>(re.match(<span class="string">'www'</span>, <span class="string">'www.baidu.com'</span>).span())  <span class="comment"># 在起始位置匹配</span></div><div class="line"><span class="built_in">print</span>(re.match(<span class="string">'com'</span>, <span class="string">'www.baidu.com'</span>))         <span class="comment"># 不在起始位置匹配</span></div><div class="line"><span class="built_in">print</span>(re.match(<span class="string">'abc'</span>, <span class="string">'www.baidu.com'</span>))         <span class="comment"># 匹配失败</span></div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight hy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="number">0</span>, <span class="number">3</span>)</div><div class="line"><span class="literal">None</span></div><div class="line"><span class="literal">None</span></div></pre></td></tr></table></figure></p>
+<h2 id="re-search方法"><a href="#re-search方法" class="headerlink" title="re.search方法"></a>re.search方法</h2><p>re.search 扫描整个字符串并返回第一个成功的匹配。<br>函数语法：</p>
+<blockquote>
+<p>re.search(pattern, string, flags=0)</p>
+</blockquote>
+<p>实例：<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="built_in">print</span>(re.search(<span class="string">'www'</span>, <span class="string">'www.baidu.com'</span>).span())         <span class="comment"># 在起始位置匹配</span></div><div class="line"><span class="built_in">print</span>(re.search(<span class="string">'com'</span>, <span class="string">'www.baidu.com'</span>).span())         <span class="comment"># 不在起始位置匹配</span></div><div class="line"><span class="built_in">print</span>(re.search(<span class="string">'wer'</span>, <span class="string">'www.baidu.com'</span>).span())         <span class="comment"># 匹配失败</span></div></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="number">0</span>, <span class="number">3</span>)</div><div class="line">(<span class="number">11</span>, <span class="number">14</span>)</div><div class="line">None</div></pre></td></tr></table></figure></p>
+<h2 id="re-sub-用于替换字符串中的匹配项。"><a href="#re-sub-用于替换字符串中的匹配项。" class="headerlink" title="re.sub()用于替换字符串中的匹配项。"></a>re.sub()用于替换字符串中的匹配项。</h2><p>语法：</p>
+<blockquote>
+<p>re.sub(pattern, repl, string, count=0, flags=0)</p>
+</blockquote>
+<p>参数：<br>pattern : 正则。<br>repl : 替换的字符串，也可为一个函数。<br>string : 原始字符串。<br>count : 模式匹配后替换的最大次数，默认 0 表示替换所有的匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line"> </div><div class="line">phone = <span class="string">"2004-959-559 # 这是将被删除的注释"</span></div><div class="line"><span class="comment"># 删除字符串中的 Python注释 </span></div><div class="line">num = re.sub(<span class="string">'#.*'</span>, <span class="string">""</span>, phone)</div><div class="line"><span class="keyword">print</span>  num</div><div class="line"> </div><div class="line"><span class="comment"># 删除“-”</span></div><div class="line">num = re.sub(<span class="string">r'\D'</span>, <span class="string">""</span>, phone)</div><div class="line"><span class="keyword">print</span> num</div></pre></td></tr></table></figure>
+<p>输出：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">2004</span><span class="number">-959</span><span class="number">-559</span> </div><div class="line"><span class="number">2004959559</span></div></pre></td></tr></table></figure></p>
+<h2 id="正则表达式修饰符-可选标志"><a href="#正则表达式修饰符-可选标志" class="headerlink" title="正则表达式修饰符 - 可选标志"></a>正则表达式修饰符 - 可选标志</h2><p>正则表达式可以包含一些可选标志修饰符来控制匹配的模式。修饰符被指定为一个可选的标志。多个标志可以通过按位 OR(|) 它们来指定。如 re.I | re.M 被设置成 I 和 M 标志：</p>
+<p><img src="/uploads/re.png" alt="标志"></p>
+<h2 id="正则表达式模式"><a href="#正则表达式模式" class="headerlink" title="正则表达式模式"></a>正则表达式模式</h2><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">^	匹配字符串的开头</div><div class="line">$	匹配字符串的末尾。</div><div class="line">.	匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。</div><div class="line">[...]	用来表示一组字符,单独列出：[amk] 匹配 <span class="string">'a'</span>，<span class="string">'m'</span>或<span class="string">'k'</span></div><div class="line">[^...]	不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符。</div><div class="line">re*	匹配<span class="number">0</span>个或多个的表达式。</div><div class="line">re+	匹配<span class="number">1</span>个或多个的表达式。</div><div class="line">re?	匹配<span class="number">0</span>个或<span class="number">1</span>个由前面的正则表达式定义的片段，非贪婪方式</div><div class="line">re&#123; n&#125;	</div><div class="line">re&#123; n,&#125;	精确匹配n个前面表达式。</div><div class="line">re&#123; n, m&#125;	匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式</div><div class="line">a| b	匹配a或b</div><div class="line">(re)	G匹配括号内的表达式，也表示一个组</div><div class="line">(?imx)	正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。</div><div class="line">(?-imx)	正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。</div><div class="line">(?: re)	类似 (...), 但是不表示一个组</div><div class="line">(?imx: re)	在括号中使用i, m, 或 x 可选标志</div><div class="line">(?-imx: re)	在括号中不使用i, m, 或 x 可选标志</div><div class="line">(?<span class="comment">#...)	注释.</span></div><div class="line">(?= re)	前向肯定界定符。如果所含正则表达式，以 ... 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。</div><div class="line">(?! re)	前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功</div><div class="line">(?&gt; re)	匹配的独立模式，省去回溯。</div><div class="line"><span class="string">\w</span>	匹配字母数字及下划线</div><div class="line"><span class="string">\W</span>	匹配非字母数字及下划线</div><div class="line"><span class="string">\s</span>	匹配任意空白字符，等价于 [<span class="string">\t\n\r\f].</span></div><div class="line"><span class="string">\S</span>	匹配任意非空字符</div><div class="line"><span class="string">\d</span>	匹配任意数字，等价于 [<span class="number">0</span>-<span class="number">9</span>].</div><div class="line"><span class="string">\D</span>	匹配任意非数字</div><div class="line"><span class="string">\A</span>	匹配字符串开始</div><div class="line"><span class="string">\Z</span>	匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。c</div><div class="line"><span class="string">\z</span>	匹配字符串结束</div><div class="line"><span class="string">\G</span>	匹配最后匹配完成的位置。</div><div class="line"><span class="string">\b</span>	匹配一个单词边界，也就是指单词和空格间的位置。例如， <span class="string">'er\b'</span> 可以匹配<span class="string">"never"</span> 中的 <span class="string">'er'</span>，但不能匹配 <span class="string">"verb"</span> 中的 <span class="string">'er'</span>。</div><div class="line"><span class="string">\B</span>	匹配非单词边界。<span class="string">'er\B'</span> 能匹配 <span class="string">"verb"</span> 中的 <span class="string">'er'</span>，但不能匹配 <span class="string">"never"</span> 中的 <span class="string">'er'</span>。</div><div class="line"><span class="string">\n,</span> <span class="string">\t,</span> 等.	匹配一个换行符。匹配一个制表符。等</div><div class="line"><span class="string">\1...\9</span>	匹配第n个分组的内容。</div><div class="line"><span class="string">\10</span>	匹配第n个分组的内容，如果它经匹配。否则指的是八进制字符码的表达式</div></pre></td></tr></table></figure>
+<h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="string">[Pp]</span>ython	匹配 <span class="string">"Python"</span> 或 <span class="string">"python"</span></div><div class="line">rub<span class="string">[ye]</span>	    匹配 <span class="string">"ruby"</span> 或 <span class="string">"rube"</span></div><div class="line"><span class="string">[aeiou]</span>	    匹配中括号内的任意一个字母</div><div class="line"><span class="string">[0-9]</span>	    匹配任何数字。类似于 <span class="string">[0123456789]</span></div><div class="line"><span class="string">[a-z]</span>	    匹配任何小写字母</div><div class="line"><span class="string">[A-Z]</span>	    匹配任何大写字母</div><div class="line"><span class="string">[a-zA-Z0-9]</span>	匹配任何字母及数字</div><div class="line"><span class="string">[^aeiou]</span>	除了aeiou字母以外的所有字符</div><div class="line"><span class="string">[^0-9]</span>	    匹配除了数字外的字符</div></pre></td></tr></table></figure>
+<h2 id="特殊字符类"><a href="#特殊字符类" class="headerlink" title="特殊字符类"></a>特殊字符类</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.	匹配除 "<span class="symbol">\n</span>" 之外的任何单个字符。要匹配包括 '<span class="symbol">\n</span>' 在内的任何字符，请使用象 '[.<span class="symbol">\n</span>]' 的模式。</div><div class="line"><span class="symbol">\d</span>	匹配一个数字字符。等价于 [0-9]。</div><div class="line"><span class="symbol">\D</span>	匹配一个非数字字符。等价于 [^0-9]。</div><div class="line"><span class="symbol">\s</span>	匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ <span class="symbol">\f</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\t</span><span class="symbol">\v</span>]。</div><div class="line"><span class="symbol">\S</span>	匹配任何非空白字符。等价于 [^ <span class="symbol">\f</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\t</span><span class="symbol">\v</span>]。</div><div class="line"><span class="symbol">\w</span>	匹配包括下划线的任何单词字符。等价于'[A-Za-z0-9_]'。</div><div class="line"><span class="symbol">\W</span>	匹配任何非单词字符。等价于 '[^A-Za-z0-9_]'。</div></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> re</div><div class="line">line = <span class="string">"Cats are smarter than dogs"</span></div><div class="line">matchObj = re.match( <span class="string">r'(.*) are (.*?) .*'</span>, line, re.M|re.I)</div><div class="line"><span class="keyword">if</span> matchObj:</div><div class="line">	<span class="keyword">print</span> <span class="string">"matchObj.group() : "</span>, matchObj.group()</div><div class="line">	<span class="keyword">print</span> <span class="string">"matchObj.group(1) : "</span>, matchObj.group(<span class="number">1</span>)</div><div class="line">	<span class="keyword">print</span> <span class="string">"matchObj.group(2) : "</span>, matchObj.group(<span class="number">2</span>)</div><div class="line"><span class="keyword">else</span>:</div><div class="line">	<span class="keyword">print</span> <span class="string">"No match!!"</span></div></pre></td></tr></table></figure>
+<p>正则表达式<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">r'</span><span class="params">(.*)</span> <span class="title">are</span> <span class="params">(.*?)</span> .*</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>解析:<br>首先，这是一个字符串，前面的一个 r 表示字符串为非转义的原始字符串，让编译器忽略反斜杠，也就是忽略转义字符。但是这个字符串里没有反斜杠，所以这个 r 可有可无。<br> (.<em>) 第一个匹配分组，.</em> 代表匹配除换行符之外的所有字符。<br> (.<em>?) 第二个匹配分组，.</em>? 后面多个问号，代表非贪婪模式，也就是说只匹配符合条件的最少字符<br> 后面的一个 .<em> 没有括号包围，所以不是分组，匹配效果和第一个一样，但是不计入匹配结果中。<br>matchObj.group() 等同于 matchObj.group(0)，表示匹配到的完整文本字符<br>matchObj.group(1) 得到第一组匹配结果，也就是(.</em>)匹配到的<br>matchObj.group(2) 得到第二组匹配结果，也就是(.*?)匹配到的<br>因为只有匹配结果中只有两组，所以如果填 3 时会报错。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Time WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/scrapy-中国服装人才网简历（思路）/" rel="next" title="scrapy-中国服装人才网简历（思路）">
+                <i class="fa fa-chevron-left"></i> scrapy-中国服装人才网简历（思路）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/11/hexo-next主题配置/" rel="prev" title="hexo next主题配置">
+                hexo next主题配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Time" />
+          <p class="site-author-name" itemprop="name">Time</p>
+           
+              <p class="site-description motion-element" itemprop="description">记录生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TimeAshore" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com" title="Baidu" target="_blank">Baidu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.google.com" title="Google" target="_blank">Google</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#re-模块使-Python-语言拥有全部的正则表达式功能。"><span class="nav-number">1.</span> <span class="nav-text">re 模块使 Python 语言拥有全部的正则表达式功能。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-search方法"><span class="nav-number">2.</span> <span class="nav-text">re.search方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-sub-用于替换字符串中的匹配项。"><span class="nav-number">3.</span> <span class="nav-text">re.sub()用于替换字符串中的匹配项。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式修饰符-可选标志"><span class="nav-number">4.</span> <span class="nav-text">正则表达式修饰符 - 可选标志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式模式"><span class="nav-number">5.</span> <span class="nav-text">正则表达式模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符类"><span class="nav-number">6.</span> <span class="nav-text">字符类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊字符类"><span class="nav-number">7.</span> <span class="nav-text">特殊字符类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">8.</span> <span class="nav-text">应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Time</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://timeashore.github.io/about/">TimeAshore</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://timeashore.github.io/">
+    Gemini
+  </a>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共8.3k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timeashore.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://TimeAshore.github.io/2017/08/10/Python正则表达式/';
+          this.page.identifier = '2017/08/10/Python正则表达式/';
+          this.page.title = 'Python正则表达式';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timeashore.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("4TXC0jGkP4DrG5lK92l2mjTG-gzGzoHsz", "bgTRJtAWGmOp3ESmdRaquhyY");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/love.js"></script>
+-->
+</html>

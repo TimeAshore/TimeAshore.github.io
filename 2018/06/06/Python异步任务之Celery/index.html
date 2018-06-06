@@ -118,7 +118,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-1cfe361a0a94773f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-a98e0d00ad929198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-8b04cc2343546d40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
-<meta property="og:updated_time" content="2018-06-06T01:32:01.636Z">
+<meta property="og:updated_time" content="2018-06-06T01:36:56.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python异步任务之Celery">
 <meta name="twitter:description" content="Celery在程序运行过程中，经常会遇到一些耗时耗资源的任务，为了避免这些任务阻塞主进程的运行，我们会采用多线程或异步任务去处理。比如在Web中需要对新注册的用户发一封激活邮件来验证账户，而发邮件本身是一个IO阻塞式任务，如果把它直接放到应用中，就会阻塞主程序的运行，用户需要等待邮件发送完成后才能进行下一步操作。一种解决办法是为每个发邮件任务新开一个线程去执行，当线程很多时这也不是很好的解决办法；">
@@ -504,7 +504,7 @@
       
 
       
-        <h1 id="Celery"><a href="#Celery" class="headerlink" title="Celery"></a>Celery</h1><p>在程序运行过程中，经常会遇到一些耗时耗资源的任务，为了避免这些任务阻塞主进程的运行，我们会采用多线程或异步任务去处理。比如在Web中需要对新注册的用户发一封激活邮件来验证账户，而发邮件本身是一个IO阻塞式任务，如果把它直接放到应用中，就会阻塞主程序的运行，用户需要等待邮件发送完成后才能进行下一步操作。一种解决办法是为每个发邮件任务新开一个线程去执行，当线程很多时这也不是很好的解决办法；更好的方式是在业务逻辑中触发一个发邮件的异步任务，把待发送的任务都发往任务队列，主程序可以继续往下运行。</p>
+        <h1 id="Celery"><a href="#Celery" class="headerlink" title="Celery"></a>Celery</h1><p>在程序运行过程中，经常会遇到一些耗时耗资源的任务，为了避免这些任务阻塞主进程的运行，我们会采用多线程或异步任务去处理。比如在Web中需要对新注册的用户发一封激活邮件来验证账户，而发邮件本身是一个IO阻塞式任务，如果把它直接放到应用中，就会阻塞主程序的运行，用户需要等待邮件发送完成后才能进行下一步操作。一种解决办法是为每个发邮件任务新开一个线程去执行，当线程很多时这也不是很好的解决办法；更好的方式是在业务逻辑中触发一个发邮件的异步任务，把待发送的任务都发往任务队列，主程序可以继续往下运行。<br><a id="more"></a></p>
 <p>Celery是一个强大的分布式任务队列，他可以让任务的执行完全脱离主程序，甚至可以把任务分配到其他主机上运行。我们通常使用它来实现异步任务（async task）和定时任务（crontab）。它的架构组成如下图：</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/9136166-2628a8ee23464f65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/438" alt="celery架构组成图"></p>
 <p>可以看到， Celery 主要包含以下几个模块：</p>

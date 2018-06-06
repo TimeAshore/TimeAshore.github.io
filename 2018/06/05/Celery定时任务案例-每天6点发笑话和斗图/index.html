@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="学习无非是为了取悦自己与别人，哈哈哈~ 本文使用Celery定时任务，每天早上 6 点向手机邮箱发送一条笑话和一套最新的斗图，不仅博得清晨第一张笑脸，也减少了斗图图片重复的厌倦，每天带给自己一些新鲜感~~ 本文涉及知识点：  简单爬虫 发送邮件 Celery定时任务  本项目 github :  https://github.com/TimeAshore/Celery-QQTask 关于Celer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TimeAshore">
+<meta property="og:url" content="http://TimeAshore.github.io/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/index.html">
+<meta property="og:site_name" content="TimeAshore">
+<meta property="og:description" content="学习无非是为了取悦自己与别人，哈哈哈~ 本文使用Celery定时任务，每天早上 6 点向手机邮箱发送一条笑话和一套最新的斗图，不仅博得清晨第一张笑脸，也减少了斗图图片重复的厌倦，每天带给自己一些新鲜感~~ 本文涉及知识点：  简单爬虫 发送邮件 Celery定时任务  本项目 github :  https://github.com/TimeAshore/Celery-QQTask 关于Celer">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-b6bf82395819c1bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-9b43d97fb2f4f1e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-afffa049827b3bcd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-135f26b33ca2d7f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-06-05T12:30:21.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TimeAshore">
+<meta name="twitter:description" content="学习无非是为了取悦自己与别人，哈哈哈~ 本文使用Celery定时任务，每天早上 6 点向手机邮箱发送一条笑话和一套最新的斗图，不仅博得清晨第一张笑脸，也减少了斗图图片重复的厌倦，每天带给自己一些新鲜感~~ 本文涉及知识点：  简单爬虫 发送邮件 Celery定时任务  本项目 github :  https://github.com/TimeAshore/Celery-QQTask 关于Celer">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9136166-b6bf82395819c1bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'CX9DWNDL7L',
+      apiKey: '36325da64458e82fa2ccff878210fea9',
+      indexName: 'test',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://TimeAshore.github.io/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/"/>
+
+
+
+
+
+  <title> | TimeAshore</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ed8f3ae4007bb785ba5556c2e060fa8c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TimeAshore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">海有多蓝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <!-- 添加  theme.algolia_search.enable -->
+  
+
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> 
+
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> 
+
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> 
+
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> 
+
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> 
+
+            
+            关于
+          </a>
+        </li>
+      
+
+
+  
+    <li class="menu-item menu-item-search">
+      
+        <a href="javascript:;" class="popup-trigger">
+
+<!-- 添加 结束 -->
+
+
+      
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+        
+        搜索
+      </a>
+    </li>
+  
+</ul>
+
+  
+
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Time">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TimeAshore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T20:30:21+08:00">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/" class="leancloud_visitors" data-flag-title="">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  626
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习无非是为了取悦自己与别人，哈哈哈~</p>
+<p>本文使用Celery定时任务，每天早上 6 点向手机邮箱发送一条笑话和一套最新的斗图，不仅博得清晨第一张笑脸，也减少了斗图图片重复的厌倦，每天带给自己一些新鲜感~~</p>
+<p>本文涉及知识点：</p>
+<ol>
+<li>简单爬虫</li>
+<li>发送邮件</li>
+<li>Celery定时任务</li>
+</ol>
+<p>本项目 github :  <a href="https://github.com/TimeAshore/Celery-QQTask" target="_blank" rel="external">https://github.com/TimeAshore/Celery-QQTask</a></p>
+<p>关于Celery学习，请查看这篇文章《Python异步任务之Celery》</p>
+<p>项目目录结构图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9136166-b6bf82395819c1bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
+<p><code>__init__.py</code> 文件实例化Celery</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#encoding: utf<span class="number">-8</span></div><div class="line"># Author: Timeashore</div><div class="line"></div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</div><div class="line"></div><div class="line">cele = Celery(<span class="string">'demo'</span>)</div><div class="line">cele.config_from_object(<span class="string">'celery_app.celeryconfig'</span>)</div></pre></td></tr></table></figure>
+<p>celeryconfig.py 配置Celery</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">#encoding: utf<span class="number">-8</span></div><div class="line"># Author: Timeashore</div><div class="line"></div><div class="line"><span class="keyword">from</span> celery.schedules <span class="keyword">import</span> crontab</div><div class="line"></div><div class="line"># Broker and Backend</div><div class="line">BROKER_URL = <span class="string">'redis://127.0.0.1:6379'</span></div><div class="line">CELERY_RESULT_BACKEND = <span class="string">'redis://127.0.0.1:6379'</span></div><div class="line"></div><div class="line">CELERY_TIMEZONE=<span class="string">'Asia/Shanghai'</span>    # 指定时区，不指定默认为 <span class="string">'UTC'</span></div><div class="line"># CELERY_TIMEZONE=<span class="string">'UTC'</span></div><div class="line"></div><div class="line"># <span class="keyword">import</span></div><div class="line">CELERY_IMPORTS = (</div><div class="line">    <span class="string">'celery_app.task1'</span>,</div><div class="line">)</div><div class="line"># schedules</div><div class="line">CELERYBEAT_SCHEDULE = &#123;</div><div class="line">    <span class="string">'multiply-at-some-time'</span>: &#123;</div><div class="line">        <span class="string">'task'</span>: <span class="string">'celery_app.task1.send_email_image'</span>,</div><div class="line">        <span class="string">'schedule'</span>: crontab(hour=<span class="number">6</span>, minute=<span class="number">20</span>),   # 每天早上 <span class="number">6</span> 点 <span class="number">00</span> 分执行一次</div><div class="line">        <span class="string">'args'</span>: ()                                  # 任务函数参数</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>task1.py 是定时任务文件，发送图片邮件部分代码：</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="xml">content = MIMEText(con + '''<span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;<span class="name">table</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                                    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid1"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid3"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></div><div class="line"><span class="xml">                               <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                                    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid2"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid4"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                                    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid5"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid7"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></div><div class="line"><span class="xml">                               <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                                    <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid6"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cid:imageid8"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></div><div class="line"><span class="xml">                              <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></div><div class="line"><span class="xml">                        <span class="tag">&lt;/<span class="name">table</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span>''', 'html', 'utf-8')</span></div><div class="line"><span class="xml">    msg.attach(content)</span></div><div class="line"><span class="xml">    for x in range(1, 9):</span></div><div class="line"><span class="xml">        with open("</span><span class="template-variable">&#123;&#125;</span><span class="xml">.</span><span class="template-variable">&#123;&#125;</span><span class="xml">".format(x, point), "rb") as f:</span></div><div class="line"><span class="xml">            img_data = f.read()</span></div><div class="line"><span class="xml">        img = MIMEImage(img_data)</span></div><div class="line"><span class="xml">        img.add_header('Content-ID', 'imageid</span><span class="template-variable">&#123;&#125;</span><span class="xml">'.format(str(x)))</span></div><div class="line"><span class="xml">        msg.attach(img)</span></div><div class="line"><span class="xml">    try:</span></div><div class="line"><span class="xml">        s = smtplib.SMTP_SSL("smtp.qq.com", 465)  # 邮件服务器及端口号</span></div><div class="line"><span class="xml">        s.login(msg_from, passwd)</span></div><div class="line"><span class="xml">        s.sendmail(msg_from, 收件人, msg.as_string())</span></div><div class="line"><span class="xml">        print u"发送成功"</span></div><div class="line"><span class="xml">    except Exception, e:</span></div><div class="line"><span class="xml">        print u"发送失败", e.message</span></div><div class="line"><span class="xml">    finally:</span></div><div class="line"><span class="xml">        s.quit()</span></div></pre></td></tr></table></figure>
+<p>邮件使用 QQ 邮箱，前提需要开启账户 POP3 和 IMAP , 具体设置请看项目代码。</p>
+<p><strong>执行</strong></p>
+<p>1，在celery_app同级目录下，启动Celery worker 进程</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">celery</span> -A celery_app worker --loglevel=<span class="literal">info</span></div></pre></td></tr></table></figure>
+<p>启动成功如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9136166-9b43d97fb2f4f1e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"><br>2，在celery_app同级目录下，开启定时任务，周期性的把 task 发送到 Broker </p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">celery</span> <span class="keyword">beat </span>-A celery_app</div></pre></td></tr></table></figure>
+<p>如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9136166-afffa049827b3bcd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
+<p>至此，把项目部署到服务器。每天 6 点都会收到一封邮件，包括一条笑话和最新一套斗图图片，你也可以把朋友邮件添加在程序的收件人列表中。</p>
+<p>展示图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9136166-135f26b33ca2d7f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
+<p>同样的，按照这个思路，可以很简单的实现天气预报实时通知，关心自己和朋友。</p>
+<p>注：以上“朋友”仅字面朋友，女朋友就算了，毕竟稀缺 ~~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Time WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/10/python-json-dumps-json-dump-的区别/" rel="next" title="python json.dumps()  json.dump()的区别">
+                <i class="fa fa-chevron-left"></i> python json.dumps()  json.dump()的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Time" />
+          <p class="site-author-name" itemprop="name">Time</p>
+           
+              <p class="site-description motion-element" itemprop="description">记录生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TimeAshore" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com" title="Baidu" target="_blank">Baidu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.google.com" title="Google" target="_blank">Google</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Time</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://timeashore.github.io/about/">TimeAshore</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://timeashore.github.io/">
+    Gemini
+  </a>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共9.0k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timeashore.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://TimeAshore.github.io/2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/';
+          this.page.identifier = '2018/06/05/Celery定时任务案例-每天6点发笑话和斗图/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timeashore.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("4TXC0jGkP4DrG5lK92l2mjTG-gzGzoHsz", "bgTRJtAWGmOp3ESmdRaquhyY");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/love.js"></script>
+-->
+</html>

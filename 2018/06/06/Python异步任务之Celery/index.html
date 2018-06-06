@@ -118,7 +118,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-1cfe361a0a94773f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-a98e0d00ad929198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9136166-8b04cc2343546d40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
-<meta property="og:updated_time" content="2018-06-06T01:36:56.947Z">
+<meta property="og:updated_time" content="2018-06-06T09:17:34.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python异步任务之Celery">
 <meta name="twitter:description" content="Celery在程序运行过程中，经常会遇到一些耗时耗资源的任务，为了避免这些任务阻塞主进程的运行，我们会采用多线程或异步任务去处理。比如在Web中需要对新注册的用户发一封激活邮件来验证账户，而发邮件本身是一个IO阻塞式任务，如果把它直接放到应用中，就会阻塞主程序的运行，用户需要等待邮件发送完成后才能进行下一步操作。一种解决办法是为每个发邮件任务新开一个线程去执行，当线程很多时这也不是很好的解决办法；">
@@ -467,7 +467,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2,210
+                  2,234
                 </span>
               
 
@@ -590,6 +590,7 @@
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">celery</span> -A app worker --loglevel=<span class="literal">info</span></div></pre></td></tr></table></figure>
 <p>然后，app同级目录，启动 Celery Beat 进程，定时将任务发送到 Broker</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">celery</span> <span class="keyword">beat </span>-A app</div></pre></td></tr></table></figure>
+<p>Linux系统可以使用 -B 参数一条语句启动：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">celery</span> -A app worker -B --loglevel=<span class="literal">info</span></div></pre></td></tr></table></figure></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/9136166-1cfe361a0a94773f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
 <p>手动调用 2 次 Celery 任务, havefun()：</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/9136166-a98e0d00ad929198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>

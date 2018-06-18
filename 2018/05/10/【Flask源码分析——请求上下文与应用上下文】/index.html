@@ -87,7 +87,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Python," />
+  <meta name="keywords" content="Flask," />
 
 
 
@@ -103,18 +103,28 @@
 
 
 
-<meta name="description" content="lambda表达式是一行函数。原型：1lambda 参数:操作(参数) 实例：123&amp;gt;&amp;gt;&amp;gt;lc = lambda a:a**2&amp;gt;&amp;gt;&amp;gt;lc(3)9">
-<meta name="keywords" content="Python">
+<meta name="description" content="Flask中有两种上下文，请求上下文和应用上下文。两者的作用域都处于一个请求的局部中。">
+<meta name="keywords" content="Flask">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python map(),filter(),reduce()及lambda表达式">
-<meta property="og:url" content="http://TimeAshore.github.io/2017/08/08/Python-map-filter-reduce-及lambda表达式/index.html">
+<meta property="og:title" content="【Flask源码分析——请求上下文与应用上下文】">
+<meta property="og:url" content="http://TimeAshore.github.io/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/index.html">
 <meta property="og:site_name" content="TimeAshore">
-<meta property="og:description" content="lambda表达式是一行函数。原型：1lambda 参数:操作(参数) 实例：123&amp;gt;&amp;gt;&amp;gt;lc = lambda a:a**2&amp;gt;&amp;gt;&amp;gt;lc(3)9">
+<meta property="og:description" content="Flask中有两种上下文，请求上下文和应用上下文。两者的作用域都处于一个请求的局部中。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-07T13:04:10.726Z">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510090320625-522432167.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510090425578-1828794915.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510094756654-1300404779.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510100359206-1490100595.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510102942946-1800820863.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103359668-1350863249.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103456715-331440505.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103815247-1352803712.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510104739923-1640540140.png">
+<meta property="og:updated_time" content="2018-06-18T03:37:26.941Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python map(),filter(),reduce()及lambda表达式">
-<meta name="twitter:description" content="lambda表达式是一行函数。原型：1lambda 参数:操作(参数) 实例：123&amp;gt;&amp;gt;&amp;gt;lc = lambda a:a**2&amp;gt;&amp;gt;&amp;gt;lc(3)9">
+<meta name="twitter:title" content="【Flask源码分析——请求上下文与应用上下文】">
+<meta name="twitter:description" content="Flask中有两种上下文，请求上下文和应用上下文。两者的作用域都处于一个请求的局部中。">
+<meta name="twitter:image" content="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510090320625-522432167.png">
 
 
 
@@ -143,13 +153,13 @@
 
 
 
-  <link rel="canonical" href="http://TimeAshore.github.io/2017/08/08/Python-map-filter-reduce-及lambda表达式/"/>
+  <link rel="canonical" href="http://TimeAshore.github.io/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/"/>
 
 
 
 
 
-  <title>Python map(),filter(),reduce()及lambda表达式 | TimeAshore</title>
+  <title>【Flask源码分析——请求上下文与应用上下文】 | TimeAshore</title>
   
 
 
@@ -354,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2017/08/08/Python-map-filter-reduce-及lambda表达式/">
+    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Time">
@@ -371,7 +381,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python map(),filter(),reduce()及lambda表达式</h1>
+          <h1 class="post-title" itemprop="name headline">【Flask源码分析——请求上下文与应用上下文】</h1>
         
 
         <div class="post-meta">
@@ -383,8 +393,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-08T10:08:14+08:00">
-                2017-08-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T11:12:16+08:00">
+                2018-05-10
               </time>
             
 
@@ -406,8 +416,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
                   </a>
                 </span>
 
@@ -424,9 +434,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/08/08/Python-map-filter-reduce-及lambda表达式/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/08/Python-map-filter-reduce-及lambda表达式/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/10/【Flask源码分析——请求上下文与应用上下文】/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -434,7 +444,7 @@
 
           
           
-             <span id="/2017/08/08/Python-map-filter-reduce-及lambda表达式/" class="leancloud_visitors" data-flag-title="Python map(),filter(),reduce()及lambda表达式">
+             <span id="/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/" class="leancloud_visitors" data-flag-title="【Flask源码分析——请求上下文与应用上下文】">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -459,7 +469,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  267
+                  1,148
                 </span>
               
 
@@ -475,7 +485,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  1
+                  4
                 </span>
               
             </div>
@@ -496,16 +506,48 @@
       
 
       
-        <h1 id="lambda表达式是一行函数。"><a href="#lambda表达式是一行函数。" class="headerlink" title="lambda表达式是一行函数。"></a>lambda表达式是一行函数。</h1><p>原型：<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lambda 参数:操作<span class="comment">(参数)</span></div></pre></td></tr></table></figure></p>
-<p>实例：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt;lc = lambda <span class="symbol">a:</span>a**<span class="number">2</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt;lc(<span class="number">3</span>)</div><div class="line"><span class="number">9</span></div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>会将一个函数映射到一个输入列表的所有元素上。<br>规范：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">map</span><span class="params">(function_to_apply, list_of_inputs)</span></span></div></pre></td></tr></table></figure></p>
-<p>实例：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt;l = [1,2,3,4,5]</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt;l_1 = map(lambda a:a**2, l)</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt;<span class="built_in">print</span> l_1</span></div><div class="line">[1, 4, 9, 16, 25]</div></pre></td></tr></table></figure></p>
-<h1 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h1><p>过滤列表中的元素，并且返回一个由所有符合要求（即函数映射到该元素时返回值为True）的元素所构成的列表。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;<span class="builtin-name">print</span> filter( lambda a:a%<span class="attribute">2</span>==0, range(11))</div><div class="line">[0, 2, 4, 6, 8, 10]</div></pre></td></tr></table></figure></p>
-<h1 id="reduce-function-sequence-startvalue"><a href="#reduce-function-sequence-startvalue" class="headerlink" title="reduce(function, sequence, startvalue)"></a>reduce(function, sequence, startvalue)</h1><p>对sequence中的对象顺序迭代调用function，可设置初始值startvalue，默认为0。</p>
-<p>例如对一个序列求和：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;print reduce( lambda <span class="selector-tag">a</span>,<span class="selector-tag">b</span>:a+<span class="selector-tag">b</span>, range(<span class="number">11</span>) )</div><div class="line"><span class="number">55</span></div><div class="line">&gt;&gt;&gt;print reduce( lambda <span class="selector-tag">a</span>,<span class="selector-tag">b</span>:a+<span class="selector-tag">b</span>,range(<span class="number">11</span>), <span class="number">100</span>)	#设置初始值<span class="number">100</span></div><div class="line"><span class="number">155</span></div></pre></td></tr></table></figure></p>
-<h1 id="混合使用"><a href="#混合使用" class="headerlink" title="混合使用"></a>混合使用</h1><p>运行：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">import math</div><div class="line">l = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</div><div class="line">l_1 = map(lambda <span class="keyword">a</span>:<span class="keyword">a</span>**<span class="number">2</span>, l)</div><div class="line">print l_1</div><div class="line"></div><div class="line">l2_sum = <span class="built_in">sum</span>(  map(  lambda <span class="keyword">a</span>:int(math.<span class="built_in">sqrt</span>(<span class="keyword">a</span>)), <span class="built_in">filter</span>( lambda <span class="keyword">a</span>:<span class="keyword">a</span>%<span class="number">2</span>==<span class="number">0</span>,l_1 )  )  )</div><div class="line">print <span class="string">"l2_sum ="</span>,l2_sum</div></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[<span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">25</span>, <span class="number">36</span>, <span class="number">49</span>, <span class="number">64</span>, <span class="number">81</span>, <span class="number">100</span>]</div><div class="line">l2_sum = <span class="number">30</span></div></pre></td></tr></table></figure></p>
+        <p>Flask中有两种上下文，请求上下文和应用上下文。两者的作用域都处于一个请求的局部中。<br><a id="more"></a></p>
+<h4 id="查看源代码，上下文类在flask-ctx模块中定义"><a href="#查看源代码，上下文类在flask-ctx模块中定义" class="headerlink" title="查看源代码，上下文类在flask.ctx模块中定义"></a>查看源代码，上下文类在flask.ctx模块中定义</h4><p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510090320625-522432167.png" alt="image"></p>
+<p>AppContext类定义应用上下文，app是当前应用Web对象的引用，g是当前请求内全局变量，每个请求的g都是独立的，在整个请求内都是全局可访问修改的。</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510090425578-1828794915.png" alt="image"></p>
+<p>RequestContext类定义请求上下文，request、session是所熟悉的经常用到的，app涵义和AppContext中相同。</p>
+<h4 id="上下文对象的作用域："><a href="#上下文对象的作用域：" class="headerlink" title="上下文对象的作用域："></a>上下文对象的作用域：</h4><p>先说结论：请求上下文和应用上下文一样，他们的作用域是当前请求内，在当前请求内全局可访问。</p>
+<p>线程中用ThreadLocal类实现线程间的隔离。同样的，werkzeug实现了自己的线程隔离类werkzeug.local.Local，看下图Flask处理一个请求的中间过程</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510094756654-1300404779.png" alt="image"></p>
+<p>LocalStack类是flask定义的用于<strong>线程隔离</strong>的栈存储对象，_app_ctx_stack和_request_ctx_stack由LocalStack类定义，分别用来保存应用和请求上下文。</p>
+<p><em>（线程隔离：每个线程只能看到自己的结果，对于不同的线程，它们访问这两个对象看到的结果是不一样的、完全隔离的。这是根据线程pid的不同实现的。）</em></p>
+<p>他们的定义在flask.globals模块中：</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510100359206-1490100595.png" alt="image"></p>
+<p>其中也定义了current，session等常用请求内全局对象，他们用LocalProxy定义，LocalProxy类的构造函数接收一个callable参数，上面这几个就传入了一个偏函数。以g为例，当对g进行操作时，就会调用作为参数的偏函数，并把操作转发到偏函数返回的对象上。</p>
+<p>例如g对象的调用过程：</p>
+<ol>
+<li>从当前线程应用上下文栈顶获取应用上下文</li>
+<li>取出其中的g对象</li>
+<li>进行操作</li>
+</ol>
+<p>由图中flask处理请求的过程可知，客户端发起请求，创建了应用请求上下文并且推送到对应栈内，待flask server处理完成返回响应给客户端前，从栈中把当前请求的应用请求上下文删除掉，再返回响应给客户端就完成了一次完整的请求处理过程。</p>
+<p>又因为每个应用里线程同时只处理一个请求，故上请求、应用下文栈肯定只有一个对象。并且，在请求结束后都会释放，所以新的请求来的时候都会重新推送两个上下文。</p>
+<h4 id="上下文的推送"><a href="#上下文的推送" class="headerlink" title="上下文的推送"></a>上下文的推送</h4><p>Flask对象调用run()作为WSGI 应用启动后，每当有请求进入时，Flask调用push函数推送请求上下文</p>
+<p>来看RequestContext类源码，push函数：</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510102942946-1800820863.png" alt="image"></p>
+<p>在推送请求上下文之前必须有应用上下文，Flask会检查当前线程的应用上下文栈顶是否有应用上下文：</p>
+<ul>
+<li>如果有，判断与请求上下文是否属于同一个应用，（在单WSGI应用的程序中无意义，因为只创建一个app）</li>
+<li>如果没有，就会推送一个当前应用的上下文，并记录下来。</li>
+</ul>
+<p>请求处理结束，调用auto_pop函数，其中又调用自身的pop函数：</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103359668-1350863249.png" alt="image"><br><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103456715-331440505.png" alt="image"></p>
+<p>在pop函数中会把请求上下文和应用上下文都pop掉。</p>
+<p>应用上下文AppContext源码，push，pop函数：</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510103815247-1352803712.png" alt="image"></p>
+<p><strong>所以，在每个WSGI应用里，每个请求的两个上下文都是完全独立的，每次请求到来的时候都会推送请求上下文和应用上下文。如果应用上下文不存在，则会隐式的创建。</strong></p>
+<p>那么还有两个问题：</p>
+<p>①应用和请求上下文在运行时都是线程隔离的，为何要分开来？</p>
+<p>②每个线程同时只处理一个请求，上下文栈肯定只有一个对象，为何要用栈来存储？</p>
+<p>参考其他资料后得出：这两个设计都是为了在离线状态下调试用。 下图是一位前辈的总结</p>
+<p><img src="https://images2018.cnblogs.com/blog/961897/201805/961897-20180510104739923-1640540140.png" alt="image"></p>
+<h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p><strong>对于flask编程来说，只有一个应用上的结论：每个请求的g都是独立的，并且在整个请求内都是全局可访问修改的。</strong><br><strong><br>所以，在每个WSGI应用里，每个请求的两个上下文都是完全独立的，每次请求到来的时候都会推送请求上下文和应用上下文。如果应用上下文不存在，则会隐式的创建。</strong></p>
+<p>可供参考<a href="https://blog.csdn.net/barrysj/article/details/51519254#commentBox" target="_blank" rel="external">文章1</a>，<a href="https://blog.tonyseek.com/post/the-context-mechanism-of-flask/" target="_blank" rel="external">文章2</a></p>
 
       
     </div>
@@ -547,7 +589,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Python/" rel="tag"># Python</a>
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
           
         </div>
       
@@ -560,8 +602,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/04/python-assert-arg-arg用法详解/" rel="next" title="python assert,*arg,**arg用法详解">
-                <i class="fa fa-chevron-left"></i> python assert,*arg,**arg用法详解
+              <a href="/2017/11/10/python-json-dumps-json-dump-的区别/" rel="next" title="python json.dumps()  json.dump()的区别">
+                <i class="fa fa-chevron-left"></i> python json.dumps()  json.dump()的区别
               </a>
             
           </div>
@@ -570,8 +612,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/10/scrapy-中国服装人才网简历（思路）/" rel="prev" title="scrapy-中国服装人才网简历（思路）">
-                scrapy-中国服装人才网简历（思路） <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/06/Python异步任务之Celery/" rel="prev" title="Python异步任务之Celery">
+                Python异步任务之Celery <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -750,7 +792,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lambda表达式是一行函数。"><span class="nav-number">1.</span> <span class="nav-text">lambda表达式是一行函数。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map"><span class="nav-number">2.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#filter"><span class="nav-number">3.</span> <span class="nav-text">filter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reduce-function-sequence-startvalue"><span class="nav-number">4.</span> <span class="nav-text">reduce(function, sequence, startvalue)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#混合使用"><span class="nav-number">5.</span> <span class="nav-text">混合使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看源代码，上下文类在flask-ctx模块中定义"><span class="nav-number">1.</span> <span class="nav-text">查看源代码，上下文类在flask.ctx模块中定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上下文对象的作用域："><span class="nav-number">2.</span> <span class="nav-text">上下文对象的作用域：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上下文的推送"><span class="nav-number">3.</span> <span class="nav-text">上下文的推送</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结："><span class="nav-number">4.</span> <span class="nav-text">小结：</span></a></li></ol></div>
             
 
           </div>
@@ -912,9 +954,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://TimeAshore.github.io/2017/08/08/Python-map-filter-reduce-及lambda表达式/';
-          this.page.identifier = '2017/08/08/Python-map-filter-reduce-及lambda表达式/';
-          this.page.title = 'Python map(),filter(),reduce()及lambda表达式';
+          this.page.url = 'http://TimeAshore.github.io/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/';
+          this.page.identifier = '2018/05/10/【Flask源码分析——请求上下文与应用上下文】/';
+          this.page.title = '【Flask源码分析——请求上下文与应用上下文】';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://timeashore.disqus.com/embed.js';

@@ -87,7 +87,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -103,16 +103,18 @@
 
 
 
-<meta name="description" content="记录生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="TimeAshore">
-<meta property="og:url" content="http://TimeAshore.github.io/categories/Linux学习/index.html">
+<meta name="description" content="首先介绍这两个函数 一、setInterval() 按照指定的周期来调用函数或表达式，==执行多次==。（时间单位：ms）">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript中的定时调用函数setInterval()和setTimeout()">
+<meta property="og:url" content="http://TimeAshore.github.io/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/index.html">
 <meta property="og:site_name" content="TimeAshore">
-<meta property="og:description" content="记录生活">
+<meta property="og:description" content="首先介绍这两个函数 一、setInterval() 按照指定的周期来调用函数或表达式，==执行多次==。（时间单位：ms）">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-18T03:45:56.087Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TimeAshore">
-<meta name="twitter:description" content="记录生活">
+<meta name="twitter:title" content="Javascript中的定时调用函数setInterval()和setTimeout()">
+<meta name="twitter:description" content="首先介绍这两个函数 一、setInterval() 按照指定的周期来调用函数或表达式，==执行多次==。（时间单位：ms）">
 
 
 
@@ -141,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://TimeAshore.github.io/categories/Linux学习/"/>
+  <link rel="canonical" href="http://TimeAshore.github.io/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/"/>
 
 
 
 
 
-  <title>分类: Linux学习 | TimeAshore</title>
+  <title>Javascript中的定时调用函数setInterval()和setTimeout() | TimeAshore</title>
   
 
 
@@ -182,7 +184,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -338,55 +340,266 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Linux学习<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Time">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TimeAshore">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/10/11/Linux学习之第一篇/" itemprop="url">
-              
-                <span itemprop="name">Linux学习之第一篇</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Javascript中的定时调用函数setInterval()和setTimeout()</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-11T18:39:32+08:00"
-              content="2017-10-11" >
-          10-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T21:12:00+08:00">
+                2018-04-16
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/" class="leancloud_visitors" data-flag-title="Javascript中的定时调用函数setInterval()和setTimeout()">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  204
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>首先介绍这两个函数</p>
+<p><strong>一、setInterval()</strong></p>
+<p>按照指定的周期来调用函数或表达式，==执行多次==。（时间单位：ms）</p>
+<a id="more"></a>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">timer</span> = setInterval(<span class="string">"content =document.getElementById("</span>input_content<span class="string">").value;"</span>, <span class="number">800</span>) <span class="comment">// 0.8s执行一次js语句</span></div><div class="line"><span class="section">timer</span> = setInterval(showHint, <span class="number">800</span>)  <span class="comment">// 每0.8s执行一次showHint函数</span></div><div class="line">clearTimeout(<span class="section">timer</span>)                 <span class="comment">// 取消定时器</span></div></pre></td></tr></table></figure>
+<p><strong>二、setTimeout()</strong></p>
+<p>在一段时间后执行函数或表达式，==执行一次==。（时间单位：ms）</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">timer</span> = setTimeout(<span class="string">"content =document.getElementById("</span>input_content<span class="string">").value;"</span>, <span class="number">800</span>) <span class="comment">// 0.8s执行一次js语句 </span></div><div class="line"><span class="section">timer</span> = setTimeout(showHint, <span class="number">800</span>) <span class="comment">// 0.8s后执行showHint函数</span></div><div class="line">clearTimeout(<span class="section">timer</span>)               <span class="comment">// 取消定时器</span></div></pre></td></tr></table></figure>
+<p>切记，以函数为参数时不可这样写：函数名()       。这样会直接执行函数，达不到延时效果，传入函数名就可以了。</p>
+<p>如果调用的函数需要传入参数 ，应该这样写：</p>
+<figure class="highlight scilab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mytest</span><span class="params">(webName)</span>&#123;</span></div><div class="line">  console.<span class="built_in">log</span>(webName);</div><div class="line">&#125;</div><div class="line">setInterval(<span class="string">"mytest('</span>蚂蚁部落<span class="string">')"</span>,<span class="number">800</span>);</div></pre></td></tr></table></figure>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Time WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/10/python-json-dumps-json-dump-的区别/" rel="next" title="python json.dumps()  json.dump()的区别">
+                <i class="fa fa-chevron-left"></i> python json.dumps()  json.dump()的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/【Flask源码分析——请求上下文与应用上下文】/" rel="prev" title="【Flask源码分析——请求上下文与应用上下文】">
+                【Flask源码分析——请求上下文与应用上下文】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -394,6 +607,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -640,10 +864,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
@@ -661,6 +885,18 @@
       <script id="dsq-count-scr" src="https://timeashore.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://TimeAshore.github.io/2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/';
+          this.page.identifier = '2018/04/16/Javascript中的定时调用函数setInterval()和setTimeout()/';
+          this.page.title = 'Javascript中的定时调用函数setInterval()和setTimeout()';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timeashore.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

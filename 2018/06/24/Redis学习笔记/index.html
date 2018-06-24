@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Redis 简介Redis遵守BSD协议， 是一个基于内存的高性能key-value数据库。特点：  支持数据持久化，可以把内存中的数据保存到磁盘（数据备份），重启的时候可以再次加载使用（数据恢复）。 不仅仅支持简单的key-value类型，提供string，list，set，zset，hash多种数据结构。 支持数据备份——+master-slave模式数据备份">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 学习笔记">
+<meta property="og:url" content="http://TimeAshore.github.io/2018/06/24/Redis学习笔记/index.html">
+<meta property="og:site_name" content="TimeAshore">
+<meta property="og:description" content="Redis 简介Redis遵守BSD协议， 是一个基于内存的高性能key-value数据库。特点：  支持数据持久化，可以把内存中的数据保存到磁盘（数据备份），重启的时候可以再次加载使用（数据恢复）。 不仅仅支持简单的key-value类型，提供string，list，set，zset，hash多种数据结构。 支持数据备份——+master-slave模式数据备份">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-24T11:26:17.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 学习笔记">
+<meta name="twitter:description" content="Redis 简介Redis遵守BSD协议， 是一个基于内存的高性能key-value数据库。特点：  支持数据持久化，可以把内存中的数据保存到磁盘（数据备份），重启的时候可以再次加载使用（数据恢复）。 不仅仅支持简单的key-value类型，提供string，list，set，zset，hash多种数据结构。 支持数据备份——+master-slave模式数据备份">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'CX9DWNDL7L',
+      apiKey: '36325da64458e82fa2ccff878210fea9',
+      indexName: 'test',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://TimeAshore.github.io/2018/06/24/Redis学习笔记/"/>
+
+
+
+
+
+  <title>Redis 学习笔记 | TimeAshore</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ed8f3ae4007bb785ba5556c2e060fa8c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TimeAshore</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">海有多蓝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  <!-- 添加  theme.algolia_search.enable -->
+  
+
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> 
+
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> 
+
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> 
+
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> 
+
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> 
+
+            
+            关于
+          </a>
+        </li>
+      
+
+
+  
+    <li class="menu-item menu-item-search">
+      
+        <a href="javascript:;" class="popup-trigger">
+
+<!-- 添加 结束 -->
+
+
+      
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+        
+        搜索
+      </a>
+    </li>
+  
+</ul>
+
+  
+
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://TimeAshore.github.io/2018/06/24/Redis学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Time">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TimeAshore">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis 学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-24T19:25:18+08:00">
+                2018-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/24/Redis学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/24/Redis学习笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/24/Redis学习笔记/" class="leancloud_visitors" data-flag-title="Redis 学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,524
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  17
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Redis 简介<br>Redis遵守BSD协议， 是一个基于内存的高性能key-value数据库。<br>特点：</p>
+<ol>
+<li>支持数据持久化，可以把内存中的数据保存到磁盘（数据备份），重启的时候可以再次加载使用（数据恢复）。</li>
+<li>不仅仅支持简单的key-value类型，提供string，list，set，zset，hash多种数据结构。</li>
+<li>支持数据备份——+master-slave模式数据备份<a id="more"></a>
+Redis优势：</li>
+<li>性能极高，读速度110000次/s，写速度81000次/s。</li>
+<li>丰富数据类型。</li>
+<li>原子性，单个命令是原子性的。多个操作支持事务，事务中是非原子性的。</li>
+<li>丰富的特性，比如缓存、发布订阅（publish \ subscribe）、消息、按key设置过期时间，过期后将自动删除。<br>Redis与其他key-value存储有什么不同？<br>● Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>● Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。<br>注：（原子性：要么成功执行要么失败完全不执行）</li>
+</ol>
+<p>redis中的字符串类型String：<br>String类型是redis最基本的类型，是二进制安全的，可以包含任何数据，例如jpg图片，或者序列化的对象。数字值在 Redis 中也以字符串的形式保存。<br>一个键最大能存储 512 MB，格式为 key : value<br>命令：set \ get \ mset \ INCR<br>设置多个key：mset key1 value1 key2 value2 key3 value3<br>对数字值加 1 ：INCR key</p>
+<p>redis中的 hash 类型：<br>一个 redis hash 可以存储40多亿个键值对，hash 是键值对的集合。<br>特别适用于存储对象。<br>命令：hmset \ hmget \ hset \ hget \ hsetnx \ hgetall \ hdel \ hkeys \ hlen \ hexists \ hvals </p>
+<p>设置一个人的信息： hmset hash_table1 name “zhangsan” age “18” sex “women”<br>获取： hget hash_table1 name<br>获取： hget hash_table1 age<br>获取： hget hash_table1 sex</p>
+<p>redis中的 list 类型：<br>list 是一个简单的字符串列表，按照插入顺序排序（栈），也可以向收尾添加元素，最多存储40多亿个。<br>命令：lpush \ rpush \ lpop \ rpop \ blpop \ brpop \ lrange \ llen \ lindex </p>
+<p>向 list_table1 表中插入字符串：lpush list_table1 “abc”<br>向 list_table1 表中插入字符串：lpush list_table1 “efg”<br>向 list_table1 表中插入字符串：lpush list_table1 “xyz”<br>从栈顶取出一个：lpop list_table1<br>范围查询： lrange list_table1 0 10<br>blpop移出并获取列表的第一个元素，提供一个等待时间，list没有元素会阻塞list直到等待超时或发现可弹出元素为止。blpop list 100<br>brpop移出并获取列表的最后一个元素，提供一个等待时间，list没有元素会阻塞list直到等待超时或发现可弹出元素为止。brpop list 100</p>
+<p>redis 中的 set 类型：<br>set 集合是存储 string 类型的无序集合，集合是用哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。<br>添加元素到集合中，如果成功返回 1，如果已存在返回 0（插入被忽略），一个集合最多可以存40多亿个 string 。<br>命令：sadd \ smembers</p>
+<p>插入：sadd set_table1 “abc”<br>插入：sadd set_table1 “efg”<br>插入：sadd set_table1 “zzz”<br>插入：sadd set_table1 “zzzzz”<br>插入：sadd set_table1 “zzzzz”    （已存在，操作将被忽略）</p>
+<p>查看已有成员：smembers set_table1<br>输出（无序）：<br>1) “zzzzz”<br>2) “zzz”<br>3) “efg”<br>4) “abc”</p>
+<p>redis 中的 zset 类型：<br>zset 是有序集合。和 set 只有一点不同：zset 中的每个元素都会关联一个 double 类型的分数（score），redis 通过这个 score 对成员进行由小到大排序。<br>其中 score 可以重复。<br>命令：zadd \ zrangebyscore    </p>
+<p>格式：zadd 集合表 分数 string<br>插入：zadd zset_table1 1 “abc”<br>插入：zadd zset_table1 2 “bcd”<br>插入：zadd zset_table1 7 “aaa”<br>插入：zadd zset_table1 100 “abb”<br>插入：zadd zset_table1 -10 “zzz”</p>
+<p>按分数排序：zrangebyscore ddd-100 200<br>输出（有序）：<br>1) “zzz”<br>2) “abc”<br>3) “bcd”<br>4) “aaa”<br>5) “abb”</p>
+<p>删除一个key：del keyname   (1/0)</p>
+<p>序列化一个key，返回序列化的值： dump keyname</p>
+<p>判断一个key是否存在：exists keyname  (1/0)</p>
+<p>给一个key设置过期时间，过期会自动删除：<br>1\expire   keyname second         (/s)    (1/0)<br>2\pexpire  keyname milliseconds      (/ms)   (1/0)<br>3\expireat keyname Unix时间戳             (1/0)  </p>
+<p>查看一个key剩余过期时间:：<br>1\ttl  keyname   (/s)<br>2\pttl keyname   (/s)<br>ps：ttl( time to live )</p>
+<p>删除一个key的过期时间，让他永不过期：persist keyname      (1/0)</p>
+<p>按条件查找key，返回一个列表：keys 条件<br>set d1 100<br>set d2 200<br>set d3 300<br>set c  500<br>keys <em>   （会输出所有）<br>keys d</em>  （会输出：d1,d2,d3）<br>keys c*  （会输出：c）</p>
+<p>把一个key从当前数据移动到另一个数据库：move keyname 数据库编号      (1/0)<br>ps：数据库编号默认为0，即默认使用0数据库；可以使用select n 选择其他数据库，如select 1 ;select 3;<br>set d 100<br>move d 3</p>
+<p>WATCH命令：<br>watch 是在一个事务执行前监控一个或多个 key，如果在 watch 之后有任何一个 key 发生了变化，EXEC 命令执行的事务将会被放弃，并返回（nil）提示事务执行失败。<br>例如：<br>set num 1<br>WATCH<br>get num<br>set num 5<br>MULTI<br>set num 10<br>EXEC<br>num 在 WATCH 后被修改，此时会放弃执行 EXEC 事务。</p>
+<p>从数据库中随机返回一个key：randomkey    (keyname/nil)</p>
+<p>清空数据库：flushdb</p>
+<p>重命名key：rename oldkey newkey<br>1\oldkey不存在        (error)<br>2\newkey已存在，oldkey值会覆盖newkey</p>
+<p>在newkey不存在时才能重命名成功，防止key覆盖：renamenx oldkey newkey</p>
+<p>查看一个key的类型：type key</p>
+<p>Redis发布订阅功能：<br>它是一种消息通信模式，发送者发送（publish）消息，订阅者接收（subscribe）消息。其中Redis客户端可以订阅任意数量的频道。<br>命令：subscribe \ publish</p>
+<p>客户端订阅频道（接收消息）：subscribe redisChat<br>重新开启一个redis客户端（发布消息）：publish redisChat “Hello,everyone ! Good morning ! “<br>订阅者会收到发送者发布的消息。</p>
+<p>Redis事务：<br>事务可以一次执行多个命令。任意一条命令的失败不会影响其他命令的执行。<br>Redis命令的执行是原子性的，但Redis事务执行是非原子性的。<br>一个事务从开始到执行会经历三个阶段：1 开始事务——2 命令入队——3 执行事务<br>命令：multi / exec / discard / unwatch </p>
+<p>redis 127.0.0.1:7000&gt; multi        （标记一个事务块的开始）<br>OK<br>redis 127.0.0.1:7000&gt; set name “zhangsan”     （放入队列缓存）<br>QUEUED<br>redis 127.0.0.1:7000&gt; get name            （放入队列缓存）<br>QUEUED<br>redis 127.0.0.1:7000&gt; set age 18        （放入队列缓存）<br>QUEUED<br>redis 127.0.0.1:7000&gt; exec            （执行事务块内的命令）<br>1) OK<br>2) OK<br>3) OK<br>注：可以在 exec 命令前调用 discard 取消事务，放弃执行事务块内的命令。</p>
+<p>Redis脚本：<br>Redis 脚本使用 Lua 解释器来执行脚本。 Reids 2.6 版本通过内嵌支持 Lua 环境。执行脚本的常用命令为 EVAL。<br>如需详细学习：看文档（/手动微笑）</p>
+<p>Redis服务器：<br>在后台异步保存当前数据库的数据到磁盘：BGSAVE<br>同步保存数据到磁盘：SAVE<br>删除当前数据库的所有key：flushdb<br>删除所有数据库的所有key：flushall</p>
+<p>Redis数据备份与恢复：<br>redis数据保存在安装目录dump.rdb文件。<br>备份：SAVE / BGSAVE<br>恢复：如果 A 机器坏了需要恢复数据，先停止 A Redis服务，把备份的 dump.rdb 文件拷贝到 A Redis的安装目录下，启动A Redis服务即可。<br>查看Redis安装目录：config get dir</p>
+<p>Redis安全：<br>没有设置密码时，客户端可直接使用 Redis 服务。<br>设置密码后，客户端需验证密码后才能使用 Redis 服务。<br>Redis 服务器查看密码：config get requirepass    （“”/密码）<br>Redis 服务器设置密码：config set requirepass  password<br>Redis 客户端验证密码：AUTH password</p>
+<p>Redis性能测试：<br>Redis 性能测试是通过同时执行多个命令实现的。<br>命令：redis-benchmark<br>同时执行10000个请求检测性能： redis-benchmark -n 10000 -q<br>仅测试set,get lpush,hgetall命令的性能：redis-benchmark -t set,lpush -n 10000 -q<br>参数解释：<br>1 -h 指定服务器主机名 127.0.0.1<br>2 -p 指定服务器端口 6379<br>3 -s 指定服务器 socket<br>4 -c 指定并发连接数 50<br>5 -n 指定请求数 10000<br>6 -d 以字节的形式指定 SET/GET 值的数据大小 2<br>7 -k 1=keep alive 0=reconnect 1<br>8 -r SET/GET/INCR 使用随机 key, SADD 使用随机值<br>9 -P 通过管道传输 <numreq> 请求 1<br>10 -q 强制退出 redis。仅显示 query/sec 值<br>11 –csv 以 CSV 格式输出<br>12 -l 生成循环，永久执行测试<br>13 -t 仅运行以逗号分隔的测试命令列表。<br>14 -I Idle 模式。仅打开 N 个 idle 连接并等待。 </numreq></p>
+<p>Redis 客户端连接：<br>redis 通过监听一个 TCP 端口或者 Unix socket 的方式来接收来自客户端的连接，当一个连接建立后，Redis 内部会进行以下一些操作：<br>  ● 首先，客户端 socket 会被设置为非阻塞模式，因为 Redis 在网络事件处理上采用的是非阻塞多路复用模型。<br>  ● 然后为这个 socket 设置 TCP_NODELAY 属性，禁用 Nagle 算法<br>  ● 然后创建一个可读的文件事件用于监听这个客户端 socket 的数据发送<br>Redis服务中默认的最大连接数是10000，可以直接在 redis.conf 中修改这个值，也可以使用命令修改：config set maxclients 60000</p>
+<p>Redis 管道技术：<br>Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。<br>优势：提高 redis 服务的性能。</p>
+<p>Redis分区：<br>分区是分割数据到多个Redis服务器的过程，因此每个服务器只保存key的一个子集。<br>分区的优势：</p>
+<ol>
+<li>利用多台计算机的内存，可以构造更大的数据库。</li>
+<li>利用多核和多台计算机，可以拓展计算能力。</li>
+<li>李彤多台计算机和网络适配器，可以拓展网络带宽。</li>
+</ol>
+<p>分区的不足：分区导致redis的一些特性表现的不是很好，如下</p>
+<ol>
+<li>不支持多个key的操作。举例来说，当两个set映射到不同的redis实例上时，你就不能对这两个set执行交集操作。</li>
+<li>涉及多个key的redis事务不能使用。</li>
+<li>当使用分区时，数据处理较为复杂，比如你需要处理多个rdb/aof文件，并且从多个实例和主机备份持久化文件。</li>
+<li>增加或删除容量也比较复杂。redis集群大多数支持在运行时增加、删除节点的透明数据平衡的能力，但是类似于客户端分区、代理等其他系统则不支持这项特性。然而，一种叫做presharding的技术对此是有帮助的。</li>
+</ol>
+<p>分区类型：<br>Redis 有两种分区类型，范围分区、哈希分区。<br>假设有4个Redis服务器，R0，R1，R2，R3，有许多key等待被划分到指定服务器上。</p>
+<p>范围分区法：映射一定范围的对象到特定的Redis服务器。<br>比如，ID从0到10000的用户会保存到实例R0，ID从10001到 20000的用户会保存到R1，以此类推。这种方式是可行的，并且在实际中使用，不足就是要有一个区间范围到实例的映射表。这个表要被管理，同时还需要各种对象的映射表，通常对    Redis来说不是好的方法。</p>
+<p>哈希分区法：对任何key都适用，也无需是object_name:这种形式。</p>
+<ol>
+<li>用一个hash函数将key转换为一个数字，比如使用crc32 hash函数。对key foobar执行crc32(foobar)会输出类似93024922的整数。</li>
+<li>对这个整数取模，将其转化为0-3之间的数字，就可以将这个整数映射到4个Redis实例中的一个了。93024922 % 4 = 2，就是说key foobar应该被存到R2实例中。</li>
+</ol>
+<p>Redis 数据持久化 3 种方法：</p>
+<ol>
+<li><p>RDB 持久化（快照），称为“半持久化模式”<br>原理是 fork 一个子进程以时间间隔将 Redis 在内存中的数据保存到临时RDB文件中，完成后，用其替代老文件（dump.rdb）。<br>优点：<br>a. 相比于 AOF 备份数据，RDB 速度更快。<br>b. 相比于 AOF 恢复数据，RDB 速度更快。<br>c. RDB 整个Redis数据库只包含一个文件，对于文件备份而言更友好；数据恢复也方便，只需要把这个文件拷贝到其他存储介质即可。<br>缺点：<br>a. RDB  数据安全可靠性低，当系统意外停止时没来得及写入磁盘的数据将会丢失。<br>b. RDB 通过 fork 子进程来持久化数据，如果数据集很大，会导致服务器暂停服务几百毫秒。<br>RDB 持久化配置信息：<br>save 900 1              # 在900秒(15分钟)之后，如果至少有1个key发生变化，则dump内存快照。<br>save 300 10            # 在300秒(5分钟)之后，如果至少有10个key发生变化，则dump内存快照。<br>save 60 10000        # 在60秒(1分钟)之后，如果至少有10000个key发生变化，则dump内存快照。</p>
+</li>
+<li><p>AOF 持久化，称为“全持久化模式”   （Append Only File）<br>原理是将 Redis 的操作日志以追加的方式写入文件。<br>优点：<br>a. AOF 更高的数据安全可靠性，分为 3 中同步策略，“每秒同步”，“每次修改同步”，“不同步”。<br>b. AOF 以 append 方式写入日志文件，即使写入过程中出现宕机也不会破环日志文件中已有内容，并且可以在 Redis 重启前使用 redis-check-aof 工具解决数据一致性问题。<br>c. AOF 包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作，我们也可以通过该文件完成数据的重建。<br>缺点：<br>a. 相同的数据量，AOF 文件比 RDB 大。<br>b. 恢复大数据集比 RDB 慢。<br>c. Redis 使用 AOF 模式持久化时运行效率比 RDB 慢，修改一次就同步一次效率低，但数据安全性高；每秒同步一次效率还是比较高的；不同步效率和 RDB 差不多 哈哈哈嗝~<br>AOF 持久化配置信息：<br>appendfsync always        # 每次有数据修改发生时都会写入AOF文件。<br>appendfsync everysec    # 每秒钟同步一次，该策略为AOF的缺省策略。<br>appendfsync no              # 从不同步。高效但是数据不会被持久化。</p>
+</li>
+<li><p>混合模式 （4.0版本支持）<br>解决了 AOF 恢复慢，RDB 写入时间间隔的问题。<br>可参考：Redis-4.0 混合持久化 、Redis4.0 之 RDB-AOF 混合持久化</p>
+</li>
+</ol>
+<p>Redis 缓存失效策略：（以下全是引用）<br>缓存系统都要定期清理无效数据，这就需要“淘汰策略”打辅助了。<br>在 Redis 中，有生存期的 key 被称为 volatile，在创建缓存时，要为 key 设置生存期，过期后 key 会被删除。<br>当 redis 内存数据集上升到一定大小时就会实行数据淘汰策略。<br>redis 提供 6 种数据淘汰策略：</p>
+<ol>
+<li>volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰</li>
+<li>volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰</li>
+<li>volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰</li>
+<li>allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰</li>
+<li>allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰</li>
+<li>no-enviction（驱逐）：禁止驱逐数据<br>volatile 和 allkeys 规定了是对已设置过期时间的数据集淘汰数据还是从全部数据集淘汰数据，后面的 lru、ttl 以及 random 是三种不同的淘汰策略，再加上一种 no-enviction 永不回收的策略。<br>使用策略规则：</li>
+<li>如果数据呈现幂律分布，也就是一部分数据访问频率高，一部分数据访问频率低，则使用 allkeys-lru。</li>
+<li>如果数据呈现平等分布，也就是所有的数据访问频率都相同，则使用 allkeys-random。<br>三种数据淘汰策略：<br>　　ttl 和 random 比较容易理解，实现也比较简单。Lru 最近最少使用淘汰策略设计上会对 key 按失效时间排序，然后取最先失效的 key 进行淘汰。</li>
+</ol>
+<p>Redis适用场景：</p>
+<ol>
+<li>会话缓存（Session Cache）</li>
+<li>全页缓存（FPC）</li>
+<li>队列。例如，Celery有一个后台就是使用Redis作为broker</li>
+<li>排行榜/计数器</li>
+<li>发布/订阅</li>
+</ol>
+<p>最后：在 Redis 实际使用中一定要配置允许最大使用内存大小，默认没有限制（0），如果服务器内存已经满了再有新数据插入进来，Redis 会崩溃。<br>参考了：Redis的那些最常见面试问题</p>
+<p>总结：<br>经过这几天的学习，对 Redis 数据库有了一个大体的认识和基本的使用，同时还有很多不懂的地方，希望以后可以更完整的学习并在实际应用中使用。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Time WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/06/Celery定时任务案例-每天6点发笑话和斗图/" rel="next" title="Celery定时任务案例-每天6点给自己发一条笑话和一套斗图">
+                <i class="fa fa-chevron-left"></i> Celery定时任务案例-每天6点给自己发一条笑话和一套斗图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Time" />
+          <p class="site-author-name" itemprop="name">Time</p>
+           
+              <p class="site-description motion-element" itemprop="description">记录生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/TimeAshore" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com" title="Baidu" target="_blank">Baidu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.google.com" title="Google" target="_blank">Google</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Time</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://timeashore.github.io/about/">TimeAshore</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://timeashore.github.io/">
+    Gemini
+  </a>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共19.4k字</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://timeashore.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://TimeAshore.github.io/2018/06/24/Redis学习笔记/';
+          this.page.identifier = '2018/06/24/Redis学习笔记/';
+          this.page.title = 'Redis 学习笔记';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://timeashore.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("4TXC0jGkP4DrG5lK92l2mjTG-gzGzoHsz", "bgTRJtAWGmOp3ESmdRaquhyY");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/love.js"></script>
+-->
+</html>
